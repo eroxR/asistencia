@@ -13,6 +13,7 @@ class AsistenciaDatabase {
   final String tableUsuario = 'usuarios';
   final String tableAsistencia = 'asistencias';
   final String tableAutorizacion = 'autorizaciones';
+  final String tableActividadDefiniciones = 'actividad_definiciones';
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -27,7 +28,7 @@ class AsistenciaDatabase {
 
     final path = join(dbPath, filePath);
 
-    // await deleteDatabase(path);
+    await deleteDatabase(path);
     return await openDatabase(path, version: 1, onCreate: _onCreateDB);
   }
 
@@ -43,6 +44,17 @@ class AsistenciaDatabase {
       )''');
 
     _seedNotaAsistencia(batch);
+
+    batch.execute('''
+  CREATE TABLE $tableActividadDefiniciones(
+    idActividad TEXT PRIMARY KEY NOT NULL, 
+    nombreDisplay TEXT UNIQUE NOT NULL,
+    nombreCampoDB TEXT UNIQUE NOT NULL,
+    etiquetaCorta TEXT NOT NULL,
+    ordenDisplay INTEGER DEFAULT 0
+  )''');
+
+    _seedActividades(batch);
 
     batch.execute('''
       CREATE TABLE $tableUsuario(
@@ -75,7 +87,13 @@ class AsistenciaDatabase {
         extraN1 INTEGER,
         nombreExtraN2 TEXT,
         extraN2 INTEGER,
-        estado TEXT 
+        nombreExtraN3 TEXT,
+        extraN3 INTEGER,
+        nombreExtraN4 TEXT,
+        extraN4 INTEGER,
+        nombreExtraN5 TEXT,
+        extraN5 INTEGER, 
+        estado TEXT
       )''');
 
     _seedAsistencias(batch);
@@ -258,6 +276,12 @@ class AsistenciaDatabase {
         'extraN1',
         'nombreExtraN2',
         'extraN2',
+        'nombreExtraN3',
+        'extraN3',
+        'nombreExtraN4',
+        'extraN4',
+        'nombreExtraN5',
+        'extraN5',
         'estado',
       ],
       where: 'idAsistencia = ?',
@@ -355,6 +379,32 @@ class AsistenciaDatabase {
   }
 
   //-------------------------------variadas = 'variadas' -------------------------------------------------------------------------------------------------------------------------------------------
+
+  //insertar un Nota Asistencia
+  Future<ActividadDefinicion> createActividadDefiniciones(
+    ActividadDefinicion actividadDefinicion,
+  ) async {
+    final db = await instance.database;
+    // section.idSection debe ser null aquí
+    final id = await db.insert(
+      tableNotaAsistencia,
+      actividadDefinicion.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.fail,
+    );
+    return actividadDefinicion.copyWith(
+      idActividad: id.toString(),
+    ); // Devuelve la sección con el ID
+  }
+
+  Future<List<ActividadDefinicion>> readAllActividadDefiniciones() async {
+    final db = await instance.database;
+    final orderBy = 'ordenDisplay ASC, nombreDisplay ASC'; // Ordenar
+    final result = await db.query(tableActividadDefiniciones, orderBy: orderBy);
+    return result.map((json) => ActividadDefinicion.fromMap(json)).toList();
+  }
+
+  //-------------------------------variadas = 'variadas' -------------------------------------------------------------------------------------------------------------------------------------------
+
   Future<Asistencia?> readActiveAsistenciaForUser(int usuarioId) async {
     final db = await instance.database;
     final maps = await db.query(
@@ -2079,6 +2129,51 @@ class AsistenciaDatabase {
 
     for (final autorizarData in defaultAutorizaciones) {
       batch.insert(tableAutorizacion, autorizarData);
+    }
+  }
+  // ----- FIN tableNotaAsistencia DEL SEEDING -----
+
+  // ----- SEEDING PARA tableNotaAsistencia -----
+  void _seedActividades(Batch batch) {
+    final List<Map<String, dynamic>> defaultActividades = [
+      {
+        'idActividad': 'cons_dom',
+        'nombreDisplay': 'Consagración Domingo',
+        'nombreCampoDB': 'consagracionDomingo',
+        'etiquetaCorta': 'Consagración\nDomingo',
+        'ordenDisplay': 1,
+      },
+      {
+        'idActividad': 'esc_dom',
+        'nombreDisplay': 'Escuela Dominical',
+        'nombreCampoDB': 'escuelaDominical',
+        'etiquetaCorta': 'Escuela\nDominical',
+        'ordenDisplay': 2,
+      },
+      {
+        'idActividad': 'ens_mar',
+        'nombreDisplay': 'Ensayo Martes',
+        'nombreCampoDB': 'ensayoMartes',
+        'etiquetaCorta': 'Ensayo\nMartes',
+        'ordenDisplay': 3,
+      }, // 'label' era un typo aquí antes
+      {
+        'idActividad': 'ens_mie',
+        'nombreDisplay': 'Ensayo Miércoles',
+        'nombreCampoDB': 'ensayoMiercoles',
+        'etiquetaCorta': 'Ensayo\nMiércoles',
+        'ordenDisplay': 4,
+      },
+      {
+        'idActividad': 'ser_jue',
+        'nombreDisplay': 'Servicio Jueves',
+        'nombreCampoDB': 'servicioJueves',
+        'etiquetaCorta': 'Servicio\nJueves',
+        'ordenDisplay': 5,
+      },
+    ];
+    for (final actividadData in defaultActividades) {
+      batch.insert(tableActividadDefiniciones, actividadData);
     }
   }
   // ----- FIN tableNotaAsistencia DEL SEEDING -----

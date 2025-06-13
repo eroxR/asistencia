@@ -1,7 +1,8 @@
-import 'package:asistencia/editor.dart';
+// import 'package:asistencia/editor.dart';
 import 'package:flutter/material.dart';
 import 'home.dart'; // Import the new home.dart file
 import 'package:asistencia/database/asistencia_database.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
   // Asegúrate de que los bindings de Flutter estén inicializados
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'User List Demo', // Updated title
+
       theme: ThemeData(
         // Using a color scheme based on a seed color.
         // You can change Colors.blue to any color you prefer.
@@ -39,6 +41,24 @@ class MyApp extends StatelessWidget {
         useMaterial3: true, // Recommended for new Flutter projects
       ),
       // Set UserListScreen as the home screen
+      // --- CONFIGURACIÓN DE LOCALIZACIÓN ---
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate, // Para widgets de Material Design
+        GlobalWidgetsLocalizations
+            .delegate, // Para la dirección del texto en widgets generales
+        GlobalCupertinoLocalizations
+            .delegate, // Para widgets de Cupertino (iOS-style)
+      ],
+      supportedLocales: const [
+        Locale('en', ''), // Inglés, sin código de país
+        Locale('es', ''), // Español, sin código de país
+        // Locale('es', 'ES'), // Español de España (opcional, si necesitas variantes)
+        // Locale('es', 'MX'), // Español de México (opcional)
+        // ... puedes añadir más locales que tu app soporte ...
+      ],
+      // Opcional: Establecer un locale por defecto si no se encuentra uno compatible
+      locale: Locale('es', ''),
+      // --- FIN DE CONFIGURACIÓN DE LOCALIZACIÓN ---
       home: const UserListScreen(),
       // home: const EditorScreen(),
       debugShowCheckedModeBanner: false, // Optional: removes the debug banner

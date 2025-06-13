@@ -9,6 +9,7 @@
         android:label="asistencia"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
+        android:enableOnBackInvokedCallback="true"
         android:requestLegacyExternalStorage="true"> <!-- Importante para compatibilidad en Android 10 -->
         <activity
             android:name=".MainActivity"

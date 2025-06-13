@@ -100,6 +100,12 @@ class Asistencia {
   final int? extraN1;
   final String? nombreExtraN2;
   final int? extraN2;
+  final String? nombreExtraN3;
+  final int? extraN3;
+  final String? nombreExtraN4;
+  final int? extraN4;
+  final String? nombreExtraN5;
+  final int? extraN5;
   final String? estado;
 
   Asistencia({
@@ -122,6 +128,12 @@ class Asistencia {
     this.extraN1,
     this.nombreExtraN2,
     this.extraN2,
+    this.nombreExtraN3,
+    this.extraN3,
+    this.nombreExtraN4,
+    this.extraN4,
+    this.nombreExtraN5,
+    this.extraN5,
     this.estado,
   });
 
@@ -145,6 +157,12 @@ class Asistencia {
       'extraN1': extraN1,
       'nombreExtraN2': nombreExtraN2,
       'extraN2': extraN2,
+      'nombreExtraN3': nombreExtraN3,
+      'extraN3': extraN3,
+      'nombreExtraN4': nombreExtraN4,
+      'extraN4': extraN4,
+      'nombreExtraN5': nombreExtraN5,
+      'extraN5': extraN5,
       'estado': estado,
     };
   }
@@ -185,6 +203,12 @@ class Asistencia {
       extraN1: map['extraN1'] as int?,
       nombreExtraN2: map['nombreExtraN2'] as String?,
       extraN2: map['extraN2'] as int?,
+      nombreExtraN3: map['nombreExtraN3'] as String?,
+      extraN3: map['extraN3'] as int?,
+      nombreExtraN4: map['nombreExtraN4'] as String?,
+      extraN4: map['extraN4'] as int?,
+      nombreExtraN5: map['nombreExtraN5'] as String?,
+      extraN5: map['extraN5'] as int?,
       estado: map['estado'] as String?,
     );
   }
@@ -231,6 +255,12 @@ class Asistencia {
       extraN1: extraN1 ?? this.extraN1,
       nombreExtraN2: nombreExtraN2 ?? this.nombreExtraN2,
       extraN2: extraN2 ?? this.extraN2,
+      nombreExtraN3: nombreExtraN3 ?? nombreExtraN3,
+      extraN3: extraN3 ?? extraN3,
+      nombreExtraN4: nombreExtraN4 ?? nombreExtraN4,
+      extraN4: extraN4 ?? extraN4,
+      nombreExtraN5: nombreExtraN5 ?? nombreExtraN5,
+      extraN5: extraN5 ?? extraN5,
       estado: estado ?? this.estado,
     );
   }
@@ -278,6 +308,58 @@ class Autorizaciones {
       contrasena: contrasena ?? this.contrasena,
       repetirContrasena: repetirContrasena ?? this.repetirContrasena,
       intentos: intentos ?? this.intentos,
+    );
+  }
+}
+
+class ActividadDefinicion {
+  final String idActividad; // ej: 'cons_dom'
+  final String nombreDisplay; // ej: "Consagración Domingo"
+  final String nombreCampoDB; // ej: "consagracionDomingo"
+  final String etiquetaCorta;
+  final int ordenDisplay;
+
+  ActividadDefinicion({
+    required this.idActividad,
+    required this.nombreDisplay,
+    required this.nombreCampoDB,
+    required this.etiquetaCorta,
+    required this.ordenDisplay,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'idActividad': idActividad,
+      'nombreDisplay': nombreDisplay,
+      'nombreCampoDB': nombreCampoDB,
+      'etiquetaCorta': etiquetaCorta,
+      'ordenDisplay': ordenDisplay,
+    };
+  }
+
+  factory ActividadDefinicion.fromMap(Map<String, dynamic> map) {
+    return ActividadDefinicion(
+      idActividad: map['idActividad'] as String,
+      nombreDisplay: map['nombreDisplay'] as String,
+      nombreCampoDB: map['nombreCampoDB'] as String,
+      etiquetaCorta: map['etiquetaCorta'] as String? ?? '',
+      ordenDisplay: map['ordenDisplay'] as int? ?? 0,
+    );
+  }
+
+  ActividadDefinicion copyWith({
+    String? idActividad,
+    String? nombreDisplay,
+    String? nombreCampoDB,
+    String? etiquetaCorta,
+    int? ordenDisplay,
+  }) {
+    return ActividadDefinicion(
+      idActividad: idActividad ?? this.idActividad,
+      nombreDisplay: nombreDisplay ?? this.nombreDisplay,
+      nombreCampoDB: nombreCampoDB ?? this.nombreCampoDB,
+      etiquetaCorta: etiquetaCorta ?? this.etiquetaCorta,
+      ordenDisplay: ordenDisplay ?? this.ordenDisplay,
     );
   }
 }

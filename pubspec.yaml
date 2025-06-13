@@ -30,7 +30,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_localizations: # <--- AÑADIR ESTA LÍNEA
+    sdk: flutter
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
@@ -39,10 +40,12 @@ dependencies:
   sqflite: ^2.4.2
   path: ^1.9.1
   math_expressions: ^2.7.0
-  intl: ^0.20.2
+  intl: ^0.19.0
   crypto: ^3.0.3
   font_awesome_flutter: ^10.8.0
 
+  excel: ^4.0.6
+  file_picker: ^10.1.9 # O la última versión
   pdf: ^3.10.4 # O la última versión
   path_provider: ^2.1.1 # O la última versión
   open_file: ^3.3.2 # Opcional, para abrir el archivo
